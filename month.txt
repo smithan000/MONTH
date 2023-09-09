@@ -1,0 +1,50 @@
+#include <stdio.h>
+void monthNumberToName(int month, char *monthName) {
+    char months[][4] = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
+    if (month >= 1 && month <= 12) {
+        for (int i = 0; i < 3; i++) {
+            monthName[i] = months[month - 1][i];
+        }
+        monthName[3] = '\0';
+    } else {
+        monthName[0] = '\0';
+    }
+}
+
+int monthNameToNumber(char *monthName) {
+    char months[][4] = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
+    for (int i = 0; i < 12; i++) {
+        if (monthName[0] == months[i][0] && monthName[1] == months[i][1] && monthName[2] == months[i][2]) {
+            return i + 1;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    char inputDate[12];
+    printf("Enter a date (dd-mm-yyyy or dd-xxx-yyyy): ");
+    scanf("%s", inputDate);
+    
+    int day, month, year;
+    char monthName[4];
+if (sscanf(inputDate, "%d-%d-%d", &day, &month, &year) == 3) {
+        monthNumberToName(month, monthName);
+        printf("%02d-%s-%04d\n", day, monthName, year);
+    }
+    else if (sscanf(inputDate, "%d-%3s-%d", &day, monthName, &year) == 3) {
+
+        month = monthNameToNumber(monthName);
+        if (month != -1) {
+            printf("%02d-%02d-%04d\n", day, month, year);
+        } else {
+            printf("Invalid month name!\n");
+            return 1;
+        }
+    } else {
+        printf("Invalid date format!\n");
+        return 1;
+    }
+
+return 0;
+}
